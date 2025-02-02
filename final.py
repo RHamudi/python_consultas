@@ -1,9 +1,9 @@
+from datetime import datetime
 from seleniumbase import Driver
 from selenium.webdriver.common.by import By
 from seleniumbase.common.exceptions import NoSuchElementException
 import pandas as pd
 import os
-import time
 
 def iniciar_driver():
     return Driver(uc=True, headless=False)
@@ -71,7 +71,8 @@ for index, row in df.iterrows():
         arquivo_baixado = max(arquivos, key=os.path.getctime)
         pasta_certificados = os.path.join(pasta_download, "certificados")
         os.makedirs(pasta_certificados, exist_ok=True)
-        os.rename(arquivo_baixado, os.path.join(pasta_certificados, f"{nome}{os.path.splitext(arquivo_baixado)[1]}"))
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        os.rename(arquivo_baixado, os.path.join(pasta_certificados, f"{nome}_{timestamp}{os.path.splitext(arquivo_baixado)[1]}"))
     
     driver.quit()
 
